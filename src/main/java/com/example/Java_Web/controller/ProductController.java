@@ -1,9 +1,9 @@
-package com.example.java_web.controller;
+package com.example.Java_Web.controller;
 
-import com.example.java_web.dto.ProductDTO;
-import com.example.java_web.mapper.ProductMapper;
-import com.example.java_web.domain.model.Product;
-import com.example.java_web.service.ProductService;
+import com.example.Java_Web.dto.ProductDTO;
+import com.example.Java_Web.mapper.ProductMapper;
+import com.example.Java_Web.domain.model.Product;
+import com.example.Java_Web.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

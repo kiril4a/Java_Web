@@ -1,6 +1,6 @@
-package com.example.java_web.service;
+package com.example.Java_Web.service;
 
-import com.example.java_web.domain.model.Product;
+import com.example.Java_Web.domain.model.Product;
 import org.springframework.stereotype.Service;
 import java.util.*;
 

@@ -1,9 +1,9 @@
-package com.example.java_web.mapper;
+package com.example.Java_Web.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import com.example.java_web.dto.ProductDTO;
-import com.example.java_web.domain.model.Product;
+import com.example.Java_Web.dto.ProductDTO;
+import com.example.Java_Web.domain.model.Product;
 
 @Mapper
 public interface ProductMapper {
