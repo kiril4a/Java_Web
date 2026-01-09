@@ -55,18 +55,16 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].name").value("Cosmic Widget"))
                 .andExpect(jsonPath("$[1].name").value("Galactic Gadget"));
-    }
-
-    @Test
+    }    @Test
     void testCreate() throws Exception {
         ProductDTO dto = new ProductDTO();
-        dto.setName("New Cosmic Product");
+        dto.setName("New Star Product");
         dto.setPrice(199.99);
         dto.setDescription("Brand new cosmic product");
 
         Product createdProduct = new Product();
         createdProduct.setId(1L);
-        createdProduct.setName("New Cosmic Product");
+        createdProduct.setName("New Star Product");
         createdProduct.setPrice(199.99);
         createdProduct.setDescription("Brand new cosmic product");
 
@@ -77,7 +75,7 @@ class ProductControllerTest {
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("New Cosmic Product"))
+                .andExpect(jsonPath("$.name").value("New Star Product"))
                 .andExpect(jsonPath("$.price").value(199.99));
     }
 
@@ -104,18 +102,15 @@ class ProductControllerTest {
 
         mockMvc.perform(get("/api/products/999"))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
+    }    @Test
     void testUpdate() throws Exception {
         ProductDTO dto = new ProductDTO();
-        dto.setName("Updated Cosmic Product");
-        dto.setPrice(299.99);
+        dto.setName("Updated Galaxy Product");dto.setPrice(299.99);
         dto.setDescription("Updated cosmic product");
 
         Product updatedProduct = new Product();
         updatedProduct.setId(1L);
-        updatedProduct.setName("Updated Cosmic Product");
+        updatedProduct.setName("Updated Galaxy Product");
         updatedProduct.setPrice(299.99);
         updatedProduct.setDescription("Updated cosmic product");
 
@@ -125,7 +120,7 @@ class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Updated Cosmic Product"))
+                .andExpect(jsonPath("$.name").value("Updated Galaxy Product"))
                 .andExpect(jsonPath("$.price").value(299.99));
     }
 
