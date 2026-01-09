@@ -1,7 +1,7 @@
 package com.example.Java_Web.aspect;
 
-import com.example.Java_Web.service.FeatureToggleService;
 import com.example.Java_Web.exception.FeatureNotAvailableException;
+import com.example.Java_Web.service.FeatureToggleService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,9 +19,8 @@ public class FeatureToggleAspect {
 
     @Around("@annotation(featureToggle)")
     public Object checkFeatureToggle(ProceedingJoinPoint joinPoint, FeatureToggle featureToggle) throws Throwable {
-        String featureName = featureToggle.value();
-        if (!featureToggleService.isFeatureEnabled(featureName)) {
-            throw new FeatureNotAvailableException("Feature " + featureName + " is not available");
+        if (!featureToggleService.isFeatureEnabled(featureToggle.feature())) {
+            throw new FeatureNotAvailableException("Feature " + featureToggle.feature() + " is currently disabled");
         }
         return joinPoint.proceed();
     }
