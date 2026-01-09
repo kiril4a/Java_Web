@@ -20,7 +20,7 @@ public class FeatureToggleAspect {
     @Around("@annotation(featureToggle)")
     public Object checkFeatureToggle(ProceedingJoinPoint joinPoint, FeatureToggle featureToggle) throws Throwable {
         if (!featureToggleService.isFeatureEnabled(featureToggle.feature())) {
-            throw new FeatureNotAvailableException("Feature " + featureToggle.feature() + " is currently disabled");
+            throw new FeatureNotAvailableException("Feature " + featureToggle.feature() + " is currently disabled.");
         }
         return joinPoint.proceed();
     }

@@ -7,33 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "feature")
 public class FeatureToggleConfig {
 
-    private Map<String, FeatureData> feature = new HashMap<>();
+    private final Map<String, Boolean> toggles = new HashMap<>();
 
-    public Map<String, FeatureData> getFeature() {
-        return feature;
+    public Map<String, Boolean> getToggles() {
+        return toggles;
     }
 
-    public void setFeature(Map<String, FeatureData> feature) {
-        this.feature = feature;
+    public void setToggles(Map<String, Boolean> toggles) {
+        this.toggles.clear();
+        this.toggles.putAll(toggles);
     }
-    
-    public boolean check(String featureName) {
-        FeatureData data = feature.get(featureName);
-        return data != null && data.isEnabled();
-    }
-    
-    public static class FeatureData {
-        private boolean enabled;
 
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        public void setEnabled(boolean enabled) {
-            this.enabled = enabled;
-        }
+    public boolean isEnabled(String featureName) {
+        return toggles.getOrDefault(featureName, false);
     }
 }

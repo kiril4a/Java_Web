@@ -13,6 +13,6 @@ public class FeatureToggleService {
     }
 
     public boolean isFeatureEnabled(String featureName) {
-        return featureToggleConfig.check(featureName);
+        return featureToggleConfig.isEnabled(featureName);
     }
 }
