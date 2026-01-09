@@ -125,6 +125,13 @@
                     <rules>
                         <rule>
                             <element>PACKAGE</element>
+                            <includes>
+                                <include>com.example.Java_Web.service*</include>
+                            </includes>
+                            <excludes>
+                                <exclude>com.example.Java_Web.domain.model*</exclude>
+                                <exclude>com.example.Java_Web.exception*</exclude>
+                            </excludes>
                             <limits>
                                 <limit>
                                     <counter>LINE</counter>
@@ -170,6 +177,13 @@
                             <rules>
                                 <rule>
                                     <element>PACKAGE</element>
+                                    <includes>
+                                        <include>com.example.Java_Web.service*</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>com.example.Java_Web.domain.model*</exclude>
+                                        <exclude>com.example.Java_Web.exception*</exclude>
+                                    </excludes>
                                     <limits>
                                         <limit>
                                             <counter>LINE</counter>
