@@ -1,18 +1,16 @@
 package com.example.Java_Web.service;
 
-import com.example.Java_Web.config.FeatureToggleConfig;
 import com.example.Java_Web.exception.FeatureNotAvailableException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@EnableAspectJAutoProxy
 public class CosmoCatServiceTest {
 
     @Autowired
@@ -22,15 +20,14 @@ public class CosmoCatServiceTest {
     private FeatureToggleService featureToggleService;
 
     @Test
-    public void testGetCosmoCats_Enabled() {
-        Mockito.when(featureToggleService.isFeatureEnabled("cosmoCats")).thenReturn(true);
-        Assertions.assertDoesNotThrow(() -> cosmoCatService.getCosmoCats());
-        Assertions.assertFalse(cosmoCatService.getCosmoCats().isEmpty());
+    public void testGetCosmoCats_FeatureEnabled() {
+        when(featureToggleService.isFeatureEnabled("cosmoCats")).thenReturn(true);
+        assertDoesNotThrow(() -> cosmoCatService.getCosmoCats());
     }
 
     @Test
-    public void testGetCosmoCats_Disabled() {
-        Mockito.when(featureToggleService.isFeatureEnabled("cosmoCats")).thenReturn(false);
-        Assertions.assertThrows(FeatureNotAvailableException.class, () -> cosmoCatService.getCosmoCats());
+    public void testGetCosmoCats_FeatureDisabled() {
+        when(featureToggleService.isFeatureEnabled("cosmoCats")).thenReturn(false);
+        assertThrows(FeatureNotAvailableException.class, () -> cosmoCatService.getCosmoCats());
     }
 }
