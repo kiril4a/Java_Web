@@ -1,40 +1,33 @@
 package com.example.Java_Web.domain.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.NaturalId;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "products")
+@Data
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_id_seq", allocationSize = 1)
     private Long id;
+
+    @NaturalId
+    @Column(nullable = false, unique = true)
+    private UUID productCode = UUID.randomUUID();
+
+    @Column(nullable = false)
     private String name;
-    private Double price;
+
     private String description;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private Double price;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 }
