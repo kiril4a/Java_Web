@@ -1,18 +1,39 @@
 package com.example.Java_Web.service;
 
 import com.example.Java_Web.domain.model.Product;
+import com.example.Java_Web.domain.repository.ProductRepository;
+import com.example.Java_Web.mapper.ProductMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private final Map<Long, Product> db = new HashMap<>();
-    private long idCounter = 1;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public List<Product> findAll() { return new ArrayList<>(db.values()); }
-    public Product findById(Long id) { return db.get(id); }
-    public Product create(Product product) { product.setId(idCounter++); db.put(product.getId(), product); return product; }
-    public Product update(Long id, Product product) { product.setId(id); db.put(id, product); return product; }
-    public void delete(Long id) { db.remove(id); }
+    @Transactional(readOnly = true)
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Product> getProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    @Transactional
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Transactional
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }
