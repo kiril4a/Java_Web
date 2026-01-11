@@ -1,45 +1,54 @@
 package com.example.Java_Web.service;
 
 import com.example.Java_Web.exception.FeatureNotAvailableException;
-import org.junit.jupiter.api.Nested;
+import com.example.Java_Web.config.FeatureToggleConfig;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestPropertySource(properties = {
+        "spring.datasource.url=jdbc:h2:mem:testdb",
+        "spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.datasource.username=sa",
+        "spring.datasource.password=password",
+        "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect"
+})
 class CosmoCatServiceTest {
 
-    @Nested
-    @SpringBootTest
-    @TestPropertySource(properties = "feature.toggles.cosmoCats=true")
-    class WhenFeatureIsEnabled {
+    @Autowired
+    private CosmoCatService cosmoCatService;
 
-        @Autowired
-        private CosmoCatService cosmoCatService;
+    @Autowired
+    private FeatureToggleConfig featureToggleConfig;
 
-        @Test
-        void shouldExecuteMethod() {
-            assertDoesNotThrow(() -> cosmoCatService.getCosmoCats());
-        }
+    @Test
+    void getCosmoCats_whenFeatureIsEnabled_shouldReturnCats() {
+        Map<String, Boolean> cosmoCats = new HashMap<>();
+        cosmoCats.put("enabled", true);
+        featureToggleConfig.setCosmoCats(cosmoCats);
+
+        assertFalse(cosmoCatService.getCosmoCats().isEmpty());
     }
 
-    @Nested
-    @SpringBootTest
-    @TestPropertySource(properties = "feature.toggles.cosmoCats=false")
-    class WhenFeatureIsDisabled {
+    @Test
+    void getCosmoCats_whenFeatureIsDisabled_shouldThrowException() {
+        Map<String, Boolean> cosmoCats = new HashMap<>();
+        cosmoCats.put("enabled", false);
+        featureToggleConfig.setCosmoCats(cosmoCats);
 
-        @Autowired
-        private CosmoCatService cosmoCatService;
-
-        @Test
-        void shouldThrowException() {
-            assertThrows(FeatureNotAvailableException.class, () -> {
-                cosmoCatService.getCosmoCats();
-            });
-        }
+        assertThrows(FeatureNotAvailableException.class, () -> {
+            cosmoCatService.getCosmoCats();
+        });
     }
 }

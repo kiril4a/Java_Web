@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,13 +38,13 @@ class ProductControllerTest {
         Product product1 = new Product();
         product1.setId(1L);
         product1.setName("Cosmic Widget");
-        product1.setPrice(99.99);
+        product1.setPrice(new BigDecimal("99.99"));
         product1.setDescription("Amazing product");
 
         Product product2 = new Product();
         product2.setId(2L);
         product2.setName("Galactic Gadget");
-        product2.setPrice(149.99);
+        product2.setPrice(new BigDecimal("149.99"));
         product2.setDescription("Fantastic gadget");
 
         List<Product> products = Arrays.asList(product1, product2);
@@ -55,17 +56,19 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].name").value("Cosmic Widget"))
                 .andExpect(jsonPath("$[1].name").value("Galactic Gadget"));
-    }    @Test
+    }
+
+    @Test
     void testCreate() throws Exception {
         ProductDTO dto = new ProductDTO();
         dto.setName("New Star Product");
-        dto.setPrice(199.99);
+        dto.setPrice(new BigDecimal("199.99"));
         dto.setDescription("Brand new cosmic product");
 
         Product createdProduct = new Product();
         createdProduct.setId(1L);
         createdProduct.setName("New Star Product");
-        createdProduct.setPrice(199.99);
+        createdProduct.setPrice(new BigDecimal("199.99"));
         createdProduct.setDescription("Brand new cosmic product");
 
         when(productService.create(any(Product.class))).thenReturn(createdProduct);
@@ -84,7 +87,7 @@ class ProductControllerTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Cosmic Widget");
-        product.setPrice(99.99);
+        product.setPrice(new BigDecimal("99.99"));
         product.setDescription("Amazing product");
 
         when(productService.findById(1L)).thenReturn(product);
@@ -102,16 +105,19 @@ class ProductControllerTest {
 
         mockMvc.perform(get("/api/products/999"))
                 .andExpect(status().isNotFound());
-    }    @Test
+    }
+
+    @Test
     void testUpdate() throws Exception {
         ProductDTO dto = new ProductDTO();
-        dto.setName("Updated Galaxy Product");dto.setPrice(299.99);
+        dto.setName("Updated Galaxy Product");
+        dto.setPrice(new BigDecimal("299.99"));
         dto.setDescription("Updated cosmic product");
 
         Product updatedProduct = new Product();
         updatedProduct.setId(1L);
         updatedProduct.setName("Updated Galaxy Product");
-        updatedProduct.setPrice(299.99);
+        updatedProduct.setPrice(new BigDecimal("299.99"));
         updatedProduct.setDescription("Updated cosmic product");
 
         when(productService.update(eq(1L), any(Product.class))).thenReturn(updatedProduct);

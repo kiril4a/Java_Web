@@ -1,6 +1,9 @@
 package com.example.Java_Web.domain.model;
 
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
@@ -11,12 +14,12 @@ class ProductTest {
         
         product.setId(1L);
         product.setName("Cosmic Widget");
-        product.setPrice(99.99);
+        product.setPrice(new BigDecimal("99.99"));
         product.setDescription("A wonderful cosmic product");
 
         assertEquals(1L, product.getId());
         assertEquals("Cosmic Widget", product.getName());
-        assertEquals(99.99, product.getPrice());
+        assertEquals(new BigDecimal("99.99"), product.getPrice());
         assertEquals("A wonderful cosmic product", product.getDescription());
     }
 
@@ -29,7 +32,7 @@ class ProductTest {
     @Test
     void testProductPriceCanBeSet() {
         Product product = new Product();
-        product.setPrice(150.50);
-        assertEquals(150.50, product.getPrice());
+        product.setPrice(new BigDecimal("150.50"));
+        assertEquals(new BigDecimal("150.50"), product.getPrice());
     }
 }

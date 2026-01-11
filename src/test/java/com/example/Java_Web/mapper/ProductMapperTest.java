@@ -4,6 +4,8 @@ import com.example.Java_Web.domain.model.Product;
 import com.example.Java_Web.dto.ProductDTO;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductMapperTest {
@@ -15,7 +17,7 @@ class ProductMapperTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Cosmic Widget");
-        product.setPrice(99.99);
+        product.setPrice(new BigDecimal("99.99"));
         product.setDescription("Amazing product");
 
         ProductDTO dto = mapper.toDTO(product);
@@ -23,7 +25,7 @@ class ProductMapperTest {
         assertNotNull(dto);
         assertEquals(1L, dto.getId());
         assertEquals("Cosmic Widget", dto.getName());
-        assertEquals(99.99, dto.getPrice());
+        assertEquals(new BigDecimal("99.99"), dto.getPrice());
         assertEquals("Amazing product", dto.getDescription());
     }
 
@@ -32,7 +34,7 @@ class ProductMapperTest {
         ProductDTO dto = new ProductDTO();
         dto.setId(2L);
         dto.setName("Galactic Gadget");
-        dto.setPrice(149.99);
+        dto.setPrice(new BigDecimal("149.99"));
         dto.setDescription("Fantastic gadget");
 
         Product product = mapper.toEntity(dto);
@@ -40,7 +42,7 @@ class ProductMapperTest {
         assertNotNull(product);
         assertEquals(2L, product.getId());
         assertEquals("Galactic Gadget", product.getName());
-        assertEquals(149.99, product.getPrice());
+        assertEquals(new BigDecimal("149.99"), product.getPrice());
         assertEquals("Fantastic gadget", product.getDescription());
     }
 
@@ -61,7 +63,7 @@ class ProductMapperTest {
         Product originalProduct = new Product();
         originalProduct.setId(3L);
         originalProduct.setName("Star Dust");
-        originalProduct.setPrice(299.99);
+        originalProduct.setPrice(new BigDecimal("299.99"));
         originalProduct.setDescription("Premium star dust");
 
         ProductDTO dto = mapper.toDTO(originalProduct);

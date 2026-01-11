@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -31,9 +33,9 @@ public class OrderServiceTest extends AbstractIntegrationTest {
 
         Product product = new Product();
         product.setName("The Lord of the Rings");
-        product.setPrice(25.99);
+        product.setPrice(new BigDecimal("25.99"));
         product.setCategory(category);
-        productService.saveProduct(product);
+        productService.create(product);
 
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
@@ -42,7 +44,7 @@ public class OrderServiceTest extends AbstractIntegrationTest {
 
         Order order = new Order();
         order.setCustomerEmail("test@example.com");
-        order.getItems().add(orderItem);
+        order.addItem(orderItem);
 
         orderService.save(order);
 
