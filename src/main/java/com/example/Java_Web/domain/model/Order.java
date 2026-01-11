@@ -1,44 +1,43 @@
 package com.example.Java_Web.domain.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.NaturalId;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@Entity
+@Table(name = "orders")
+@Data
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
+    @SequenceGenerator(name = "order_seq", sequenceName = "order_id_seq", allocationSize = 1)
     private Long id;
-    private List<Product> products;
-    private LocalDateTime orderDate;
-    private Double totalPrice;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    @NaturalId
+    @Column(unique = true, nullable = false)
+    private UUID orderNumber = UUID.randomUUID();
+
+    @Column(nullable = false)
+    private String customerEmail;
+
+    @Column(nullable = false)
+    private LocalDateTime orderDate = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
+
+    public void addItem(OrderItem item) {
+        items.add(item);
+        item.setOrder(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void removeItem(OrderItem item) {
+        items.remove(item);
+        item.setOrder(null);
     }
 }

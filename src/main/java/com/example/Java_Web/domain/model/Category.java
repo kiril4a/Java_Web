@@ -1,34 +1,17 @@
 package com.example.Java_Web.domain.model;
 
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.Data;
 
+@Entity
+@Table(name = "categories")
+@Data
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
+    @SequenceGenerator(name = "category_seq", sequenceName = "category_id_seq", allocationSize = 1)
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String name;
-    private List<Product> products;
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
 }
